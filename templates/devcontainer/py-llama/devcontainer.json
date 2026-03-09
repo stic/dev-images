@@ -1,0 +1,24 @@
+{
+  "name": "py-llama (with local AI)",
+  "image": "dev-py:ubuntu24.04",
+  "workspaceFolder": "/work",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/work,type=bind,consistency=cached",
+  "mounts": ["source=llama-models,target=/models,type=volume"],
+  "forwardPorts": [6060],
+  "runArgs": ["--ipc=host"],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "continue.continue",
+        "anomalyco.opencode"
+      ],
+      "settings": {
+        "continue.serverUrl": "http://localhost:6060"
+      }
+    }
+  },
+  "postCreateCommand": "mkdir -p ~/.config/opencode && cp /work/opencode-config.json ~/.config/opencode/config.json && python3 -m ipykernel install --user --name=dev --display-name='dev (container)'"
+}
