@@ -1,5 +1,5 @@
 # CUDA-aware C++ image (separate from Python).
-FROM dev-cuda:cuda13.1-cudnn9-ubuntu24.04
+FROM dev-cuda:cuda13.2-cudnn9-ubuntu24.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 

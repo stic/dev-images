@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [ "${1:-}" = "--clean" ]; then
+    echo "Cleaning existing images and volume..."
+    docker rmi dev-base:ubuntu24.04 dev-py:ubuntu24.04 dev-cpp:ubuntu24.04 dev-cuda:cuda13.1-cudnn9-ubuntu24.04 dev-py-cuda:cuda13.1-cudnn9-ubuntu24.04 dev-cpp-cuda:cuda13.1-cudnn9-ubuntu24.04 dev-llama:cuda13.1-cudnn9-ubuntu24.04 || true
+    docker volume rm llama-models || true
+fi
+
 # Build order matters
 
 docker build -t dev-base:ubuntu24.04 images/base
