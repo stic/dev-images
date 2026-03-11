@@ -13,10 +13,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN git clone https://github.com/ggerganov/llama.cpp.git /tmp/llama.cpp && \
     cd /tmp/llama.cpp && \
     mkdir build && cd build && \
-    cmake .. -DLLAMA_BUILD_SERVER=ON -DLLAMA_CUDA=ON -DLLAMA_BUILD_EXAMPLES=OFF -DCMAKE_CUDA_ARCHITECTURES=86 && \
+    ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
+    cmake .. -DLLAMA_BUILD_SERVER=ON -DGGML_CUDA=ON -DLLAMA_CUDA=ON -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_TESTS=OFF -DCMAKE_CUDA_ARCHITECTURES=86 && \
     make -j$(nproc) && \
     make install && \
-    cd / && rm -rf /tmp/llama.cpp
+    cd / && \
+    rm -rf /tmp/llama.cpp \
+    rm /usr/local/cuda/lib64/stubs/libcuda.so.1
 
 # Expose port for llama server
 EXPOSE 6060
